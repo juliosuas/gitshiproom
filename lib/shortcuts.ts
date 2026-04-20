@@ -1,0 +1,16 @@
+export const SHORTCUTS = [
+  { key: "g i", label: "Go to PR inbox", scope: "global" },
+  { key: "g s", label: "Go to issues", scope: "global" },
+  { key: "g p", label: "Go to pendientes", scope: "global" },
+  { key: "n", label: "New pendiente", scope: "global" },
+  { key: "?", label: "Show shortcuts", scope: "global" },
+  { key: "j / k", label: "Next / previous row", scope: "inbox" },
+  { key: "Enter", label: "Open focused PR", scope: "inbox" },
+  { key: "c", label: "Copy Claude command", scope: "inbox" },
+  { key: "r", label: "Refresh", scope: "inbox" },
+  { key: "a", label: "Approve", scope: "pr-detail" },
+  { key: "R", label: "Request changes", scope: "pr-detail" },
+  { key: "m", label: "Merge (squash)", scope: "pr-detail" },
+  { key: "c", label: "Copy Claude command", scope: "pr-detail" },
+  { key: "Esc", label: "Back to inbox", scope: "pr-detail" },
+] as const;
