@@ -11,7 +11,7 @@
   --font-sans: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-mono), ui-monospace, SFMono-Regular, monospace;
   --font-display: var(--font-display), ui-serif, Georgia, serif;
-  --font-heading: var(--font-sans);
+  --font-heading: var(--font-display);
 
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
@@ -40,312 +40,250 @@
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
 
-  /* Ship Room signal palette — named, so components read intent not hex */
-  --color-signal-cyan: var(--signal-cyan);
-  --color-signal-amber: var(--signal-amber);
-  --color-signal-green: var(--signal-green);
-  --color-signal-red: var(--signal-red);
-  --color-signal-violet: var(--signal-violet);
-  --color-signal-rose: var(--signal-rose);
+  /* Warm, inviting palette — "sunset over the dock" */
+  --color-coral: var(--coral);          /* hero: CTAs, primary accent */
+  --color-ocean: var(--ocean);          /* secondary: PRs, info */
+  --color-meadow: var(--meadow);        /* success */
+  --color-sun: var(--sun);              /* warning / pendientes */
+  --color-rose: var(--rose);            /* danger */
+  --color-ink: var(--ink);              /* near-black text */
 
-  --color-surface-0: var(--surface-0);
-  --color-surface-1: var(--surface-1);
-  --color-surface-2: var(--surface-2);
-  --color-hairline: var(--hairline);
+  --color-paper: var(--paper);
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
 
   --radius-sm: calc(var(--radius) * 0.5);
   --radius-md: calc(var(--radius) * 0.75);
   --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) * 1.4);
-  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-xl: calc(var(--radius) * 1.5);
+  --radius-2xl: calc(var(--radius) * 2);
+  --radius-3xl: calc(var(--radius) * 3);
+
+  --shadow-soft:
+    0 1px 2px rgba(20, 20, 24, 0.04),
+    0 4px 16px -8px rgba(20, 20, 24, 0.08);
+  --shadow-lift:
+    0 2px 4px rgba(20, 20, 24, 0.04),
+    0 12px 40px -12px rgba(20, 20, 24, 0.12),
+    0 4px 8px -4px rgba(255, 150, 100, 0.08);
+  --shadow-float:
+    0 8px 24px -8px rgba(20, 20, 24, 0.1),
+    0 24px 60px -12px rgba(20, 20, 24, 0.15);
 }
 
-/* Light mode — minimal; the app is dark-by-default but we keep a sane light fallback. */
+/* Light, warm, paper-ish — default */
 :root {
-  --background: oklch(0.985 0.002 220);
-  --foreground: oklch(0.18 0.01 240);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.18 0.01 240);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.18 0.01 240);
-  --primary: oklch(0.55 0.16 210);
-  --primary-foreground: oklch(0.99 0.005 210);
-  --secondary: oklch(0.96 0.005 220);
-  --secondary-foreground: oklch(0.2 0.01 240);
-  --muted: oklch(0.95 0.005 220);
-  --muted-foreground: oklch(0.5 0.01 240);
-  --accent: oklch(0.93 0.02 210);
-  --accent-foreground: oklch(0.18 0.01 240);
-  --destructive: oklch(0.58 0.22 25);
+  --paper: oklch(0.985 0.008 85);
+  --surface: oklch(1 0 0);
+  --surface-raised: oklch(0.995 0.003 80);
+  --ink: oklch(0.2 0.012 60);
+
+  --coral: oklch(0.72 0.17 35);
+  --ocean: oklch(0.62 0.13 245);
+  --meadow: oklch(0.68 0.16 155);
+  --sun: oklch(0.83 0.14 85);
+  --rose: oklch(0.65 0.21 25);
+
+  --background: var(--paper);
+  --foreground: var(--ink);
+
+  --card: var(--surface);
+  --card-foreground: var(--ink);
+  --popover: var(--surface);
+  --popover-foreground: var(--ink);
+
+  --primary: var(--coral);
+  --primary-foreground: oklch(0.99 0.005 85);
+  --secondary: oklch(0.96 0.008 80);
+  --secondary-foreground: var(--ink);
+  --muted: oklch(0.96 0.008 80);
+  --muted-foreground: oklch(0.5 0.01 80);
+  --accent: oklch(0.95 0.02 30);
+  --accent-foreground: var(--ink);
+  --destructive: var(--rose);
   --destructive-foreground: oklch(0.99 0.005 25);
-  --border: oklch(0.88 0.005 230);
-  --input: oklch(0.92 0.005 230);
-  --ring: oklch(0.65 0.16 200);
+  --border: oklch(0.9 0.01 80);
+  --input: oklch(0.94 0.008 80);
+  --ring: color-mix(in oklab, var(--coral) 70%, transparent);
 
-  --surface-0: oklch(1 0 0);
-  --surface-1: oklch(0.98 0.003 220);
-  --surface-2: oklch(0.95 0.005 220);
-  --hairline: oklch(0.88 0.005 230);
+  --radius: 0.75rem;
 
-  --signal-cyan: oklch(0.6 0.15 205);
-  --signal-amber: oklch(0.68 0.17 70);
-  --signal-green: oklch(0.62 0.17 145);
-  --signal-red: oklch(0.58 0.22 25);
-  --signal-violet: oklch(0.6 0.19 295);
-  --signal-rose: oklch(0.62 0.2 10);
-
-  --radius: 0.5rem;
-
-  --sidebar: oklch(0.985 0.002 220);
-  --sidebar-foreground: oklch(0.2 0.01 240);
-  --sidebar-primary: oklch(0.55 0.16 210);
-  --sidebar-primary-foreground: oklch(0.99 0 0);
-  --sidebar-accent: oklch(0.93 0.02 210);
-  --sidebar-accent-foreground: oklch(0.18 0.01 240);
-  --sidebar-border: oklch(0.88 0.005 230);
-  --sidebar-ring: oklch(0.65 0.16 200);
+  --sidebar: oklch(0.975 0.01 70);
+  --sidebar-foreground: var(--ink);
+  --sidebar-primary: var(--coral);
+  --sidebar-primary-foreground: oklch(0.99 0.005 85);
+  --sidebar-accent: oklch(0.94 0.02 40);
+  --sidebar-accent-foreground: var(--ink);
+  --sidebar-border: oklch(0.9 0.01 80);
+  --sidebar-ring: var(--coral);
 }
 
-/* Dark — the real surface. Near-black with a breath of teal; signal colors sing against it. */
+/* Dark — optional, honouring user preference if they flip to .dark */
 .dark {
-  --background: oklch(0.128 0.008 220);
-  --foreground: oklch(0.96 0.005 230);
-  --card: oklch(0.16 0.008 222);
-  --card-foreground: oklch(0.96 0.005 230);
-  --popover: oklch(0.165 0.008 222);
-  --popover-foreground: oklch(0.96 0.005 230);
-  --primary: oklch(0.82 0.14 200);
-  --primary-foreground: oklch(0.13 0.02 220);
-  --secondary: oklch(0.2 0.008 220);
-  --secondary-foreground: oklch(0.96 0.005 230);
-  --muted: oklch(0.2 0.008 220);
-  --muted-foreground: oklch(0.68 0.012 230);
-  --accent: oklch(0.22 0.015 210);
-  --accent-foreground: oklch(0.96 0.005 230);
-  --destructive: oklch(0.68 0.22 25);
+  --paper: oklch(0.17 0.012 60);
+  --surface: oklch(0.205 0.012 60);
+  --surface-raised: oklch(0.235 0.012 60);
+  --ink: oklch(0.96 0.005 85);
+
+  --coral: oklch(0.78 0.15 35);
+  --ocean: oklch(0.72 0.13 245);
+  --meadow: oklch(0.78 0.16 155);
+  --sun: oklch(0.85 0.14 85);
+  --rose: oklch(0.72 0.2 25);
+
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --card: var(--surface);
+  --card-foreground: var(--ink);
+  --popover: var(--surface);
+  --popover-foreground: var(--ink);
+
+  --primary: var(--coral);
+  --primary-foreground: oklch(0.15 0.01 60);
+  --secondary: oklch(0.25 0.012 60);
+  --secondary-foreground: var(--ink);
+  --muted: oklch(0.25 0.012 60);
+  --muted-foreground: oklch(0.7 0.01 80);
+  --accent: oklch(0.28 0.03 30);
+  --accent-foreground: var(--ink);
+  --destructive: var(--rose);
   --destructive-foreground: oklch(0.99 0.005 25);
   --border: oklch(1 0 0 / 0.08);
   --input: oklch(1 0 0 / 0.12);
-  --ring: oklch(0.82 0.14 200);
+  --ring: var(--coral);
 
-  --surface-0: oklch(0.128 0.008 220);
-  --surface-1: oklch(0.155 0.008 222);
-  --surface-2: oklch(0.185 0.01 220);
-  --hairline: oklch(1 0 0 / 0.07);
-
-  --signal-cyan: oklch(0.82 0.14 200);
-  --signal-amber: oklch(0.82 0.16 75);
-  --signal-green: oklch(0.78 0.18 145);
-  --signal-red: oklch(0.7 0.22 25);
-  --signal-violet: oklch(0.74 0.18 295);
-  --signal-rose: oklch(0.74 0.2 10);
-
-  --sidebar: oklch(0.11 0.008 220);
-  --sidebar-foreground: oklch(0.96 0.005 230);
-  --sidebar-primary: oklch(0.82 0.14 200);
-  --sidebar-primary-foreground: oklch(0.13 0.02 220);
-  --sidebar-accent: oklch(0.18 0.012 215);
-  --sidebar-accent-foreground: oklch(0.96 0.005 230);
-  --sidebar-border: oklch(1 0 0 / 0.07);
-  --sidebar-ring: oklch(0.82 0.14 200);
+  --sidebar: oklch(0.15 0.012 60);
+  --sidebar-foreground: var(--ink);
+  --sidebar-primary: var(--coral);
+  --sidebar-primary-foreground: oklch(0.15 0.01 60);
+  --sidebar-accent: oklch(0.25 0.03 40);
+  --sidebar-accent-foreground: var(--ink);
+  --sidebar-border: oklch(1 0 0 / 0.08);
+  --sidebar-ring: var(--coral);
 }
 
 @layer base {
   * {
     @apply border-border;
-    outline-color: color-mix(in oklab, var(--ring) 50%, transparent);
+    outline-color: var(--ring);
   }
 
   html {
     @apply font-sans antialiased;
-    font-feature-settings: "ss01", "cv11", "cv02", "cv04";
+    font-feature-settings: "ss01", "cv11";
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
   body {
     @apply bg-background text-foreground;
-    background-image:
+    background:
       radial-gradient(
-        circle at 10% -10%,
-        color-mix(in oklab, var(--signal-cyan) 10%, transparent) 0%,
+        circle at 5% 0%,
+        color-mix(in oklab, var(--coral) 8%, transparent) 0%,
         transparent 40%
       ),
       radial-gradient(
-        circle at 110% 110%,
-        color-mix(in oklab, var(--signal-violet) 7%, transparent) 0%,
-        transparent 45%
+        circle at 100% 100%,
+        color-mix(in oklab, var(--ocean) 6%, transparent) 0%,
+        transparent 50%
       ),
-      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.9  0 0 0 0 0.95  0 0 0 0 1  0 0 0 0.06 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
-    background-attachment: fixed, fixed, fixed;
+      var(--paper);
+    background-attachment: fixed;
+  }
+
+  h1, h2, h3 {
+    font-family: var(--font-display);
+    letter-spacing: -0.022em;
   }
 
   ::selection {
-    background: color-mix(in oklab, var(--signal-cyan) 30%, transparent);
-    color: var(--foreground);
+    background: color-mix(in oklab, var(--coral) 35%, transparent);
+    color: var(--ink);
   }
 
-  /* Ring polish — double-ring focus like a physical console */
   :where(a, button, [role="button"], input, textarea, select):focus-visible {
     outline: 2px solid var(--ring);
     outline-offset: 2px;
     border-radius: inherit;
   }
 
-  /* Scrollbars tuned to the dark theme */
   * {
     scrollbar-width: thin;
-    scrollbar-color: color-mix(in oklab, var(--foreground) 18%, transparent) transparent;
-  }
-  *::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
-  }
-  *::-webkit-scrollbar-track {
-    background: transparent;
-  }
-  *::-webkit-scrollbar-thumb {
-    background: color-mix(in oklab, var(--foreground) 14%, transparent);
-    border-radius: 999px;
-    border: 2px solid transparent;
-    background-clip: padding-box;
-  }
-  *::-webkit-scrollbar-thumb:hover {
-    background: color-mix(in oklab, var(--foreground) 22%, transparent);
-    background-clip: padding-box;
+    scrollbar-color: color-mix(in oklab, var(--foreground) 15%, transparent) transparent;
   }
 }
 
 @layer components {
-  /* Physical-feeling keyboard key — matte cap, top highlight, bottom shadow */
-  .kbd-key {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 1.25rem;
-    height: 1.25rem;
-    padding: 0 0.375rem;
-    font-family: var(--font-mono);
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 0.03em;
-    color: color-mix(in oklab, var(--foreground) 85%, transparent);
-    background: linear-gradient(
-      180deg,
-      color-mix(in oklab, var(--surface-2) 95%, white 5%),
-      color-mix(in oklab, var(--surface-2) 100%, black 8%)
-    );
-    border: 1px solid color-mix(in oklab, var(--foreground) 14%, transparent);
-    border-bottom-width: 2px;
-    border-radius: 4px;
-    box-shadow:
-      inset 0 1px 0 color-mix(in oklab, white 10%, transparent),
-      0 1px 0 color-mix(in oklab, black 40%, transparent);
-    user-select: none;
+  /* Soft card — the primary container for everything */
+  .card-soft {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-soft);
+  }
+  .card-lift {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-lift);
+    transition: transform 200ms ease, box-shadow 200ms ease;
+  }
+  .card-lift:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-float);
   }
 
-  /* Signal dot — 6px circle with a faint halo, for status indicators */
-  .signal-dot {
+  /* Dot badge — small status pill */
+  .dot {
     display: inline-block;
-    width: 6px;
-    height: 6px;
+    width: 8px;
+    height: 8px;
     border-radius: 999px;
-    box-shadow: 0 0 0 2px color-mix(in oklab, currentColor 15%, transparent);
-  }
-
-  /* Active-nav rail — 2px vertical accent bar on the left of active nav items */
-  .nav-rail-active {
-    position: relative;
-  }
-  .nav-rail-active::before {
-    content: "";
-    position: absolute;
-    left: -0.75rem;
-    top: 15%;
-    bottom: 15%;
-    width: 2px;
-    border-radius: 2px;
-    background: var(--signal-cyan);
-    box-shadow: 0 0 8px color-mix(in oklab, var(--signal-cyan) 50%, transparent);
-  }
-
-  /* Subtle row focus — used for the inbox/j-k keyboard-driven list */
-  .row-focus {
-    background: linear-gradient(
-      90deg,
-      color-mix(in oklab, var(--signal-cyan) 12%, transparent) 0%,
-      color-mix(in oklab, var(--signal-cyan) 4%, transparent) 40%,
-      transparent 100%
-    );
-    box-shadow: inset 2px 0 0 var(--signal-cyan);
-  }
-
-  /* Hairline divider that reads as intentional, not a default border */
-  .hairline {
-    border-color: var(--hairline);
   }
 }
 
 @layer utilities {
-  .text-balance {
-    text-wrap: balance;
+  .text-balance { text-wrap: balance; }
+  .text-pretty { text-wrap: pretty; }
+
+  .text-coral { color: var(--coral); }
+  .text-ocean { color: var(--ocean); }
+  .text-meadow { color: var(--meadow); }
+  .text-sun { color: var(--sun); }
+  .text-rose { color: var(--rose); }
+
+  .bg-coral { background-color: var(--coral); }
+  .bg-ocean { background-color: var(--ocean); }
+  .bg-meadow { background-color: var(--meadow); }
+  .bg-sun { background-color: var(--sun); }
+  .bg-rose { background-color: var(--rose); }
+
+  .bg-coral\/10 { background-color: color-mix(in oklab, var(--coral) 10%, transparent); }
+  .bg-coral\/15 { background-color: color-mix(in oklab, var(--coral) 15%, transparent); }
+  .bg-ocean\/10 { background-color: color-mix(in oklab, var(--ocean) 10%, transparent); }
+  .bg-ocean\/15 { background-color: color-mix(in oklab, var(--ocean) 15%, transparent); }
+  .bg-meadow\/10 { background-color: color-mix(in oklab, var(--meadow) 10%, transparent); }
+  .bg-meadow\/15 { background-color: color-mix(in oklab, var(--meadow) 15%, transparent); }
+  .bg-sun\/15 { background-color: color-mix(in oklab, var(--sun) 15%, transparent); }
+  .bg-sun\/25 { background-color: color-mix(in oklab, var(--sun) 25%, transparent); }
+  .bg-rose\/10 { background-color: color-mix(in oklab, var(--rose) 10%, transparent); }
+  .bg-rose\/15 { background-color: color-mix(in oklab, var(--rose) 15%, transparent); }
+
+  .border-coral\/30 { border-color: color-mix(in oklab, var(--coral) 30%, transparent); }
+  .border-ocean\/30 { border-color: color-mix(in oklab, var(--ocean) 30%, transparent); }
+  .border-meadow\/30 { border-color: color-mix(in oklab, var(--meadow) 30%, transparent); }
+  .border-sun\/40 { border-color: color-mix(in oklab, var(--sun) 40%, transparent); }
+  .border-rose\/30 { border-color: color-mix(in oklab, var(--rose) 30%, transparent); }
+
+  .shadow-soft { box-shadow: var(--shadow-soft); }
+  .shadow-lift { box-shadow: var(--shadow-lift); }
+  .shadow-float { box-shadow: var(--shadow-float); }
+
+  .gradient-coral {
+    background: linear-gradient(135deg, var(--coral) 0%, var(--sun) 100%);
   }
-  .text-pretty {
-    text-wrap: pretty;
+  .gradient-ocean {
+    background: linear-gradient(135deg, var(--ocean) 0%, var(--meadow) 100%);
   }
-
-  /* Bare colour helpers (used where a single class applies colour) */
-  .signal-cyan { color: var(--signal-cyan); }
-  .signal-amber { color: var(--signal-amber); }
-  .signal-green { color: var(--signal-green); }
-  .signal-red { color: var(--signal-red); }
-  .signal-violet { color: var(--signal-violet); }
-  .signal-rose { color: var(--signal-rose); }
-
-  /* text-signal-* — works with hover:/focus: variants because of @custom-variant */
-  .text-signal-cyan { color: var(--signal-cyan); }
-  .text-signal-amber { color: var(--signal-amber); }
-  .text-signal-green { color: var(--signal-green); }
-  .text-signal-red { color: var(--signal-red); }
-  .text-signal-violet { color: var(--signal-violet); }
-  .text-signal-rose { color: var(--signal-rose); }
-
-  /* Solid backgrounds (no opacity suffix) */
-  .bg-signal-cyan { background-color: var(--signal-cyan); }
-  .bg-signal-amber { background-color: var(--signal-amber); }
-  .bg-signal-green { background-color: var(--signal-green); }
-  .bg-signal-red { background-color: var(--signal-red); }
-  .bg-signal-violet { background-color: var(--signal-violet); }
-  .bg-signal-rose { background-color: var(--signal-rose); }
-
-  /* Tinted backgrounds */
-  .bg-signal-cyan\/10 { background-color: color-mix(in oklab, var(--signal-cyan) 10%, transparent); }
-  .bg-signal-cyan\/15 { background-color: color-mix(in oklab, var(--signal-cyan) 15%, transparent); }
-  .bg-signal-amber\/10 { background-color: color-mix(in oklab, var(--signal-amber) 10%, transparent); }
-  .bg-signal-amber\/15 { background-color: color-mix(in oklab, var(--signal-amber) 15%, transparent); }
-  .bg-signal-green\/10 { background-color: color-mix(in oklab, var(--signal-green) 10%, transparent); }
-  .bg-signal-green\/15 { background-color: color-mix(in oklab, var(--signal-green) 15%, transparent); }
-  .bg-signal-red\/10 { background-color: color-mix(in oklab, var(--signal-red) 10%, transparent); }
-  .bg-signal-red\/15 { background-color: color-mix(in oklab, var(--signal-red) 15%, transparent); }
-  .bg-signal-violet\/10 { background-color: color-mix(in oklab, var(--signal-violet) 10%, transparent); }
-  .bg-signal-violet\/15 { background-color: color-mix(in oklab, var(--signal-violet) 15%, transparent); }
-
-  /* Borders — /30 default plus /60 for hover-darker */
-  .border-signal-cyan\/30 { border-color: color-mix(in oklab, var(--signal-cyan) 30%, transparent); }
-  .border-signal-amber\/30 { border-color: color-mix(in oklab, var(--signal-amber) 30%, transparent); }
-  .border-signal-green\/30 { border-color: color-mix(in oklab, var(--signal-green) 30%, transparent); }
-  .border-signal-red\/30 { border-color: color-mix(in oklab, var(--signal-red) 30%, transparent); }
-  .border-signal-violet\/30 { border-color: color-mix(in oklab, var(--signal-violet) 30%, transparent); }
-  .border-signal-cyan\/60 { border-color: color-mix(in oklab, var(--signal-cyan) 60%, transparent); }
-  .border-signal-amber\/60 { border-color: color-mix(in oklab, var(--signal-amber) 60%, transparent); }
-  .border-signal-green\/60 { border-color: color-mix(in oklab, var(--signal-green) 60%, transparent); }
-  .border-signal-red\/60 { border-color: color-mix(in oklab, var(--signal-red) 60%, transparent); }
-  .border-signal-violet\/60 { border-color: color-mix(in oklab, var(--signal-violet) 60%, transparent); }
-
-  /* Text-decoration color helpers — for underline/strike-through accents */
-  .decoration-signal-cyan { text-decoration-color: var(--signal-cyan); }
-  .decoration-signal-amber { text-decoration-color: var(--signal-amber); }
-  .decoration-signal-green { text-decoration-color: var(--signal-green); }
-  .decoration-signal-red { text-decoration-color: var(--signal-red); }
-  .decoration-signal-violet { text-decoration-color: var(--signal-violet); }
 }

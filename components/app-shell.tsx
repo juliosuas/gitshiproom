@@ -2,45 +2,102 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import useSWR from "swr";
+import {
+  LayoutDashboard,
+  Inbox,
+  CircleDot,
+  ListTodo,
+  Settings,
+  Ship,
+  Sparkles,
+  Keyboard,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Kbd } from "@/components/ui/kbd";
 import { TokenStatus } from "./token-status";
 import { ShortcutsCheatsheet } from "./shortcuts-cheatsheet";
 
-type NavKey = "inbox" | "issues" | "pendientes" | "settings";
-
-const links: { href: string; label: string; key: NavKey; accent: string }[] = [
-  { href: "/inbox", label: "Inbox", key: "inbox", accent: "var(--signal-cyan)" },
-  { href: "/issues", label: "Issues", key: "issues", accent: "var(--signal-amber)" },
-  { href: "/pendientes", label: "Pendientes", key: "pendientes", accent: "var(--signal-violet)" },
-  { href: "/settings", label: "Settings", key: "settings", accent: "var(--signal-rose)" },
-];
-
 const fetcher = (u: string) => fetch(u).then((r) => r.json());
 
-function ConnectionPulse() {
-  const { data } = useSWR<{ hasToken: boolean }>("/api/health", fetcher, {
-    refreshInterval: 60_000,
-  });
+const links = [
+  {
+    href: "/",
+    label: "Home",
+    Icon: LayoutDashboard,
+    tint: "var(--coral)",
+    match: (p: string) => p === "/",
+  },
+  {
+    href: "/inbox",
+    label: "Pull requests",
+    Icon: Inbox,
+    tint: "var(--ocean)",
+    match: (p: string) => p.startsWith("/inbox") || p.startsWith("/pr/"),
+  },
+  {
+    href: "/issues",
+    label: "Issues",
+    Icon: CircleDot,
+    tint: "var(--sun)",
+    match: (p: string) => p.startsWith("/issues"),
+  },
+  {
+    href: "/pendientes",
+    label: "Pendientes",
+    Icon: ListTodo,
+    tint: "var(--meadow)",
+    match: (p: string) => p.startsWith("/pendientes"),
+  },
+  {
+    href: "/settings",
+    label: "Settings",
+    Icon: Settings,
+    tint: "color-mix(in oklab, var(--foreground) 50%, transparent)",
+    match: (p: string) => p.startsWith("/settings"),
+  },
+];
+
+function UserBadge() {
+  const { data } = useSWR<{ hasToken: boolean; user?: { login: string; avatar_url: string; name?: string | null } }>(
+    "/api/health",
+    fetcher,
+    { refreshInterval: 120_000 },
+  );
   const ok = data?.hasToken ?? false;
+  const user = data?.user;
+
   return (
-    <div className="flex items-center gap-2 text-[11px] tracking-wide text-muted-foreground">
-      <span className="relative inline-flex h-1.5 w-1.5">
-        <span
-          className={cn(
-            "absolute inline-flex h-full w-full rounded-full opacity-60",
-            ok ? "animate-ping bg-signal-green" : "bg-signal-red",
-          )}
-          style={{ backgroundColor: ok ? "var(--signal-green)" : "var(--signal-red)" }}
+    <div className="flex items-center gap-3 rounded-2xl border border-border bg-surface-raised/80 p-2.5">
+      {user?.avatar_url ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={user.avatar_url}
+          alt={user.login}
+          className="h-9 w-9 rounded-full border border-border object-cover"
         />
-        <span
-          className="relative inline-flex h-1.5 w-1.5 rounded-full"
-          style={{ backgroundColor: ok ? "var(--signal-green)" : "var(--signal-red)" }}
-        />
-      </span>
-      <span className="font-mono uppercase">
-        {ok ? "online" : "disconnected"}
-      </span>
+      ) : (
+        <div className="flex h-9 w-9 items-center justify-center rounded-full gradient-coral text-sm font-semibold text-white">
+          J
+        </div>
+      )}
+      <div className="flex-1 min-w-0">
+        <div className="truncate text-[13px] font-semibold">
+          {user?.name || user?.login || "Ship captain"}
+        </div>
+        <div className="flex items-center gap-1.5 text-[11px] text-muted-foreground">
+          <span
+            className="dot"
+            style={{
+              width: 6,
+              height: 6,
+              backgroundColor: ok ? "var(--meadow)" : "var(--rose)",
+              boxShadow: ok
+                ? "0 0 0 3px color-mix(in oklab, var(--meadow) 25%, transparent)"
+                : "0 0 0 3px color-mix(in oklab, var(--rose) 25%, transparent)",
+            }}
+          />
+          {ok ? "Connected to GitHub" : "Offline"}
+        </div>
+      </div>
     </div>
   );
 }
@@ -48,103 +105,89 @@ function ConnectionPulse() {
 export function AppShell({ children }: { children: React.ReactNode }) {
   const path = usePathname() ?? "/";
   return (
-    <div className="grid h-dvh grid-cols-[232px_1fr] text-foreground">
+    <div className="grid h-dvh grid-cols-[260px_1fr]">
       <aside
-        className="relative flex h-full flex-col border-r border-hairline px-5 py-6"
+        className="flex h-full flex-col gap-6 border-r border-border px-5 py-6"
         style={{ backgroundColor: "var(--sidebar)" }}
       >
         {/* Brand */}
-        <Link href="/inbox" className="mb-8 block space-y-1">
-          <div className="flex items-center gap-2 text-[10px] font-medium uppercase tracking-[0.22em] text-muted-foreground">
-            <span
-              className="inline-block h-[1px] w-6"
-              style={{
-                background:
-                  "linear-gradient(90deg, transparent, var(--signal-cyan))",
-              }}
-            />
-            v0.1 · ship room
+        <Link href="/" className="flex items-center gap-2.5">
+          <div
+            className="flex h-10 w-10 items-center justify-center rounded-2xl gradient-coral text-white shadow-lift"
+          >
+            <Ship className="h-5 w-5" strokeWidth={2.25} />
           </div>
-          <h1 className="font-display text-[28px] leading-none">
-            <span className="italic">Git</span>
-            <span
-              className="italic"
-              style={{
-                color: "var(--signal-cyan)",
-                textShadow: "0 0 18px color-mix(in oklab, var(--signal-cyan) 35%, transparent)",
-              }}
-            >
-              Ship
-            </span>
-            <span className="italic">Room</span>
-          </h1>
-          <ConnectionPulse />
+          <div>
+            <div className="font-display text-lg font-semibold leading-none tracking-tight">
+              GitShipRoom
+            </div>
+            <div className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground mt-1">
+              v0.1 · local
+            </div>
+          </div>
         </Link>
 
+        <UserBadge />
+
         {/* Nav */}
-        <nav className="flex flex-1 flex-col gap-0.5">
-          <div className="mb-2 text-[10px] font-medium uppercase tracking-[0.22em] text-muted-foreground/70">
-            Decks
-          </div>
-          {links.map((l) => {
-            const active = path.startsWith(l.href);
+        <nav className="flex flex-1 flex-col gap-1">
+          {links.map(({ href, label, Icon, tint, match }) => {
+            const active = match(path);
             return (
               <Link
-                key={l.href}
-                href={l.href}
+                key={href}
+                href={href}
                 className={cn(
-                  "group relative flex items-center justify-between rounded-md px-3 py-2 text-sm transition-colors",
+                  "group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-all",
                   active
-                    ? "nav-rail-active text-foreground"
-                    : "text-muted-foreground hover:bg-accent/50 hover:text-foreground",
+                    ? "bg-surface text-foreground shadow-soft"
+                    : "text-muted-foreground hover:bg-surface/60 hover:text-foreground",
                 )}
-                style={active ? { backgroundColor: "color-mix(in oklab, var(--signal-cyan) 8%, transparent)" } : undefined}
               >
-                <span className="flex items-center gap-2.5">
-                  <span
-                    className="signal-dot"
-                    style={{
-                      backgroundColor: active ? l.accent : "color-mix(in oklab, var(--foreground) 20%, transparent)",
-                      color: l.accent,
-                    }}
-                  />
-                  <span className={cn(active && "font-medium")}>{l.label}</span>
-                </span>
-                <span
+                <div
                   className={cn(
-                    "font-mono text-[10px] uppercase tracking-wider",
-                    active ? "text-foreground/60" : "text-muted-foreground/50",
+                    "flex h-8 w-8 items-center justify-center rounded-lg transition-colors",
+                    active ? "text-white" : "group-hover:bg-accent",
                   )}
+                  style={
+                    active
+                      ? { backgroundColor: tint }
+                      : { color: tint }
+                  }
                 >
-                  {l.key === "pendientes" ? "todo" : l.key}
+                  <Icon className="h-4 w-4" strokeWidth={2.25} />
+                </div>
+                <span className={cn("font-medium", active && "text-foreground")}>
+                  {label}
                 </span>
               </Link>
             );
           })}
         </nav>
 
-        {/* Quick actions footer */}
-        <div className="mt-6 space-y-3 border-t border-hairline pt-4">
-          <div className="text-[10px] font-medium uppercase tracking-[0.22em] text-muted-foreground/70">
-            Bridge controls
+        {/* Footer — AI + cheatsheet */}
+        <div className="space-y-2">
+          <div
+            className="flex items-center gap-2.5 rounded-xl border border-coral/30 bg-coral/10 px-3 py-2.5 text-[12px]"
+            style={{ color: "var(--coral)" }}
+          >
+            <Sparkles className="h-4 w-4 shrink-0" strokeWidth={2.25} />
+            <span className="font-medium">
+              Claude is your co-pilot
+            </span>
           </div>
-          <div className="space-y-1.5 text-[11px] text-muted-foreground">
-            <div className="flex items-center justify-between">
-              <span>New pendiente</span>
-              <Kbd>n</Kbd>
-            </div>
-            <div className="flex items-center justify-between">
-              <span>Shortcuts</span>
-              <Kbd>?</Kbd>
-            </div>
-            <div className="flex items-center justify-between">
-              <span>Copy Claude cmd</span>
-              <Kbd>c</Kbd>
-            </div>
-          </div>
-          <div className="pt-2 font-mono text-[9px] uppercase tracking-[0.25em] text-muted-foreground/50">
-            juliosuas / localhost
-          </div>
+          <button
+            className="flex w-full items-center justify-between gap-2 rounded-xl border border-border bg-surface px-3 py-2 text-[12px] text-muted-foreground transition-colors hover:text-foreground"
+            onClick={() => window.dispatchEvent(new KeyboardEvent("keydown", { key: "?" }))}
+          >
+            <span className="flex items-center gap-2">
+              <Keyboard className="h-3.5 w-3.5" />
+              Shortcuts
+            </span>
+            <kbd className="rounded border border-border bg-accent/40 px-1.5 py-px font-mono text-[10px]">
+              ?
+            </kbd>
+          </button>
         </div>
       </aside>
 

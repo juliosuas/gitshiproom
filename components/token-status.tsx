@@ -1,6 +1,7 @@
 "use client";
 import useSWR from "swr";
 import Link from "next/link";
+import { AlertTriangle, ArrowRight } from "lucide-react";
 
 const fetcher = (u: string) => fetch(u).then((r) => r.json());
 
@@ -13,30 +14,26 @@ export function TokenStatus() {
   return (
     <Link
       href="/setup"
-      className="group flex items-center justify-between gap-4 border-b border-signal-amber/30 px-6 py-2.5 text-sm transition-colors hover:bg-signal-amber/15"
-      style={{
-        backgroundColor:
-          "color-mix(in oklab, var(--signal-amber) 12%, transparent)",
-      }}
+      className="group flex items-center justify-between gap-4 border-b border-sun/40 bg-sun/15 px-6 py-3 text-sm transition-colors hover:bg-sun/25"
     >
       <div className="flex items-center gap-3">
-        <span
-          className="signal-dot"
-          style={{
-            backgroundColor: "var(--signal-amber)",
-            color: "var(--signal-amber)",
-          }}
-        />
-        <span className="font-mono text-[11px] uppercase tracking-[0.18em] signal-amber">
-          No signal
-        </span>
-        <span className="text-foreground/85">
-          GITHUB_TOKEN missing — ship can&apos;t reach the fleet
-        </span>
+        <div
+          className="flex h-8 w-8 items-center justify-center rounded-xl bg-sun text-white shadow-soft"
+        >
+          <AlertTriangle className="h-4 w-4" strokeWidth={2.25} />
+        </div>
+        <div>
+          <div className="font-semibold text-foreground">
+            Connect your GitHub to light this up
+          </div>
+          <div className="text-[12px] text-muted-foreground">
+            Add a token to .env — takes 30 seconds, nothing leaves your machine.
+          </div>
+        </div>
       </div>
-      <span className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground group-hover:text-foreground">
-        Open setup →
-      </span>
+      <div className="inline-flex items-center gap-1 text-sm font-semibold text-coral">
+        Open setup <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+      </div>
     </Link>
   );
 }

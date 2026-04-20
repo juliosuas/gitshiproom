@@ -1,12 +1,12 @@
 "use client";
 import * as React from "react";
+import { ListTodo, Plus } from "lucide-react";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Kbd } from "@/components/ui/kbd";
 import { useShortcut } from "./shortcut-provider";
 
 export function NewPendienteModal({
@@ -32,21 +32,17 @@ export function NewPendienteModal({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent className="!max-w-lg !bg-card !border-border !p-0 overflow-hidden">
-        <DialogHeader className="flex flex-row items-center justify-between gap-4 border-b border-hairline bg-background/40 px-5 py-3 !space-y-0">
-          <DialogTitle className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.22em] text-muted-foreground !font-normal">
-            <span
-              className="signal-dot"
-              style={{
-                backgroundColor: "var(--signal-violet)",
-                color: "var(--signal-violet)",
-              }}
-            />
-            new pendiente
+      <DialogContent className="!max-w-lg !bg-surface !border-border !rounded-2xl !p-0 overflow-hidden !shadow-float">
+        <DialogHeader className="flex flex-row items-center justify-between gap-3 border-b border-border px-5 py-4 !space-y-0">
+          <DialogTitle className="flex items-center gap-2.5 !font-sans !font-semibold text-sm">
+            <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-meadow/15" style={{ color: "var(--meadow)" }}>
+              <ListTodo className="h-4 w-4" strokeWidth={2.25} />
+            </div>
+            Capture a pendiente
           </DialogTitle>
-          <div className="flex items-center gap-2 text-[10px] text-muted-foreground">
-            <Kbd>esc</Kbd> cancel
-          </div>
+          <kbd className="rounded-md border border-border bg-muted px-1.5 py-px font-mono text-[10px] text-muted-foreground">
+            n
+          </kbd>
         </DialogHeader>
 
         <div className="px-5 py-5">
@@ -55,26 +51,20 @@ export function NewPendienteModal({
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && submit()}
-            placeholder="What needs doing?"
-            className="w-full border-0 bg-transparent font-display text-2xl italic text-foreground placeholder:text-muted-foreground/50 focus:outline-none"
+            placeholder="What's on your mind?"
+            className="w-full border-0 bg-transparent font-display text-2xl text-foreground placeholder:text-muted-foreground/50 focus:outline-none"
           />
         </div>
 
-        <div className="flex items-center justify-between border-t border-hairline bg-background/40 px-5 py-2.5 text-[10px] font-mono uppercase tracking-[0.18em] text-muted-foreground">
-          <span>local · sqlite</span>
+        <div className="flex items-center justify-between border-t border-border bg-secondary/40 px-5 py-3 text-[11px] text-muted-foreground">
+          <span>Stored locally in SQLite · never leaves this machine</span>
           <button
             onClick={submit}
             disabled={!title.trim()}
-            className="flex items-center gap-2 rounded border px-2.5 py-1 transition-colors disabled:opacity-40"
-            style={{
-              borderColor:
-                "color-mix(in oklab, var(--signal-violet) 30%, transparent)",
-              color: "var(--signal-violet)",
-              backgroundColor:
-                "color-mix(in oklab, var(--signal-violet) 10%, transparent)",
-            }}
+            className="inline-flex items-center gap-2 rounded-xl bg-coral px-3 py-1.5 text-[12px] font-semibold text-white shadow-soft transition-all hover:shadow-lift disabled:opacity-40"
           >
-            log it <Kbd>↵</Kbd>
+            <Plus className="h-3.5 w-3.5" strokeWidth={2.5} />
+            Add
           </button>
         </div>
       </DialogContent>
