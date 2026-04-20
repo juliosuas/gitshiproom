@@ -13,9 +13,30 @@ export function TokenStatus() {
   return (
     <Link
       href="/setup"
-      className="block bg-destructive px-4 py-2 text-center text-sm text-destructive-foreground"
+      className="group flex items-center justify-between gap-4 border-b border-signal-amber/30 px-6 py-2.5 text-sm transition-colors hover:bg-signal-amber/15"
+      style={{
+        backgroundColor:
+          "color-mix(in oklab, var(--signal-amber) 12%, transparent)",
+      }}
     >
-      GITHUB_TOKEN missing — click to fix
+      <div className="flex items-center gap-3">
+        <span
+          className="signal-dot"
+          style={{
+            backgroundColor: "var(--signal-amber)",
+            color: "var(--signal-amber)",
+          }}
+        />
+        <span className="font-mono text-[11px] uppercase tracking-[0.18em] signal-amber">
+          No signal
+        </span>
+        <span className="text-foreground/85">
+          GITHUB_TOKEN missing — ship can&apos;t reach the fleet
+        </span>
+      </div>
+      <span className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground group-hover:text-foreground">
+        Open setup →
+      </span>
     </Link>
   );
 }
