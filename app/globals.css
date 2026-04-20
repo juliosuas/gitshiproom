@@ -7,9 +7,12 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-sans);
-  --font-mono: var(--font-geist-mono);
+
+  --font-sans: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-mono), ui-monospace, SFMono-Regular, monospace;
+  --font-display: var(--font-display), ui-serif, Georgia, serif;
   --font-heading: var(--font-sans);
+
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -18,15 +21,12 @@
   --color-sidebar-primary: var(--sidebar-primary);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar: var(--sidebar);
-  --color-chart-5: var(--chart-5);
-  --color-chart-4: var(--chart-4);
-  --color-chart-3: var(--chart-3);
-  --color-chart-2: var(--chart-2);
-  --color-chart-1: var(--chart-1);
+
   --color-ring: var(--ring);
   --color-input: var(--input);
   --color-border: var(--border);
   --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
   --color-accent-foreground: var(--accent-foreground);
   --color-accent: var(--accent);
   --color-muted-foreground: var(--muted-foreground);
@@ -39,92 +39,313 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
-  --radius-sm: calc(var(--radius) * 0.6);
-  --radius-md: calc(var(--radius) * 0.8);
+
+  /* Ship Room signal palette — named, so components read intent not hex */
+  --color-signal-cyan: var(--signal-cyan);
+  --color-signal-amber: var(--signal-amber);
+  --color-signal-green: var(--signal-green);
+  --color-signal-red: var(--signal-red);
+  --color-signal-violet: var(--signal-violet);
+  --color-signal-rose: var(--signal-rose);
+
+  --color-surface-0: var(--surface-0);
+  --color-surface-1: var(--surface-1);
+  --color-surface-2: var(--surface-2);
+  --color-hairline: var(--hairline);
+
+  --radius-sm: calc(var(--radius) * 0.5);
+  --radius-md: calc(var(--radius) * 0.75);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) * 1.4);
   --radius-2xl: calc(var(--radius) * 1.8);
-  --radius-3xl: calc(var(--radius) * 2.2);
-  --radius-4xl: calc(var(--radius) * 2.6);
 }
 
+/* Light mode — minimal; the app is dark-by-default but we keep a sane light fallback. */
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
+  --background: oklch(0.985 0.002 220);
+  --foreground: oklch(0.18 0.01 240);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
+  --card-foreground: oklch(0.18 0.01 240);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --popover-foreground: oklch(0.18 0.01 240);
+  --primary: oklch(0.55 0.16 210);
+  --primary-foreground: oklch(0.99 0.005 210);
+  --secondary: oklch(0.96 0.005 220);
+  --secondary-foreground: oklch(0.2 0.01 240);
+  --muted: oklch(0.95 0.005 220);
+  --muted-foreground: oklch(0.5 0.01 240);
+  --accent: oklch(0.93 0.02 210);
+  --accent-foreground: oklch(0.18 0.01 240);
+  --destructive: oklch(0.58 0.22 25);
+  --destructive-foreground: oklch(0.99 0.005 25);
+  --border: oklch(0.88 0.005 230);
+  --input: oklch(0.92 0.005 230);
+  --ring: oklch(0.65 0.16 200);
+
+  --surface-0: oklch(1 0 0);
+  --surface-1: oklch(0.98 0.003 220);
+  --surface-2: oklch(0.95 0.005 220);
+  --hairline: oklch(0.88 0.005 230);
+
+  --signal-cyan: oklch(0.6 0.15 205);
+  --signal-amber: oklch(0.68 0.17 70);
+  --signal-green: oklch(0.62 0.17 145);
+  --signal-red: oklch(0.58 0.22 25);
+  --signal-violet: oklch(0.6 0.19 295);
+  --signal-rose: oklch(0.62 0.2 10);
+
+  --radius: 0.5rem;
+
+  --sidebar: oklch(0.985 0.002 220);
+  --sidebar-foreground: oklch(0.2 0.01 240);
+  --sidebar-primary: oklch(0.55 0.16 210);
+  --sidebar-primary-foreground: oklch(0.99 0 0);
+  --sidebar-accent: oklch(0.93 0.02 210);
+  --sidebar-accent-foreground: oklch(0.18 0.01 240);
+  --sidebar-border: oklch(0.88 0.005 230);
+  --sidebar-ring: oklch(0.65 0.16 200);
 }
 
+/* Dark — the real surface. Near-black with a breath of teal; signal colors sing against it. */
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --background: oklch(0.128 0.008 220);
+  --foreground: oklch(0.96 0.005 230);
+  --card: oklch(0.16 0.008 222);
+  --card-foreground: oklch(0.96 0.005 230);
+  --popover: oklch(0.165 0.008 222);
+  --popover-foreground: oklch(0.96 0.005 230);
+  --primary: oklch(0.82 0.14 200);
+  --primary-foreground: oklch(0.13 0.02 220);
+  --secondary: oklch(0.2 0.008 220);
+  --secondary-foreground: oklch(0.96 0.005 230);
+  --muted: oklch(0.2 0.008 220);
+  --muted-foreground: oklch(0.68 0.012 230);
+  --accent: oklch(0.22 0.015 210);
+  --accent-foreground: oklch(0.96 0.005 230);
+  --destructive: oklch(0.68 0.22 25);
+  --destructive-foreground: oklch(0.99 0.005 25);
+  --border: oklch(1 0 0 / 0.08);
+  --input: oklch(1 0 0 / 0.12);
+  --ring: oklch(0.82 0.14 200);
+
+  --surface-0: oklch(0.128 0.008 220);
+  --surface-1: oklch(0.155 0.008 222);
+  --surface-2: oklch(0.185 0.01 220);
+  --hairline: oklch(1 0 0 / 0.07);
+
+  --signal-cyan: oklch(0.82 0.14 200);
+  --signal-amber: oklch(0.82 0.16 75);
+  --signal-green: oklch(0.78 0.18 145);
+  --signal-red: oklch(0.7 0.22 25);
+  --signal-violet: oklch(0.74 0.18 295);
+  --signal-rose: oklch(0.74 0.2 10);
+
+  --sidebar: oklch(0.11 0.008 220);
+  --sidebar-foreground: oklch(0.96 0.005 230);
+  --sidebar-primary: oklch(0.82 0.14 200);
+  --sidebar-primary-foreground: oklch(0.13 0.02 220);
+  --sidebar-accent: oklch(0.18 0.012 215);
+  --sidebar-accent-foreground: oklch(0.96 0.005 230);
+  --sidebar-border: oklch(1 0 0 / 0.07);
+  --sidebar-ring: oklch(0.82 0.14 200);
 }
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    @apply border-border;
+    outline-color: color-mix(in oklab, var(--ring) 50%, transparent);
   }
+
+  html {
+    @apply font-sans antialiased;
+    font-feature-settings: "ss01", "cv11", "cv02", "cv04";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
   body {
     @apply bg-background text-foreground;
+    background-image:
+      radial-gradient(
+        circle at 10% -10%,
+        color-mix(in oklab, var(--signal-cyan) 10%, transparent) 0%,
+        transparent 40%
+      ),
+      radial-gradient(
+        circle at 110% 110%,
+        color-mix(in oklab, var(--signal-violet) 7%, transparent) 0%,
+        transparent 45%
+      ),
+      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.9  0 0 0 0 0.95  0 0 0 0 1  0 0 0 0.06 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    background-attachment: fixed, fixed, fixed;
   }
-  html {
-    @apply font-sans;
+
+  ::selection {
+    background: color-mix(in oklab, var(--signal-cyan) 30%, transparent);
+    color: var(--foreground);
   }
+
+  /* Ring polish — double-ring focus like a physical console */
+  :where(a, button, [role="button"], input, textarea, select):focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+    border-radius: inherit;
+  }
+
+  /* Scrollbars tuned to the dark theme */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in oklab, var(--foreground) 18%, transparent) transparent;
+  }
+  *::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  *::-webkit-scrollbar-thumb {
+    background: color-mix(in oklab, var(--foreground) 14%, transparent);
+    border-radius: 999px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+  }
+  *::-webkit-scrollbar-thumb:hover {
+    background: color-mix(in oklab, var(--foreground) 22%, transparent);
+    background-clip: padding-box;
+  }
+}
+
+@layer components {
+  /* Physical-feeling keyboard key — matte cap, top highlight, bottom shadow */
+  .kbd-key {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.25rem;
+    height: 1.25rem;
+    padding: 0 0.375rem;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    color: color-mix(in oklab, var(--foreground) 85%, transparent);
+    background: linear-gradient(
+      180deg,
+      color-mix(in oklab, var(--surface-2) 95%, white 5%),
+      color-mix(in oklab, var(--surface-2) 100%, black 8%)
+    );
+    border: 1px solid color-mix(in oklab, var(--foreground) 14%, transparent);
+    border-bottom-width: 2px;
+    border-radius: 4px;
+    box-shadow:
+      inset 0 1px 0 color-mix(in oklab, white 10%, transparent),
+      0 1px 0 color-mix(in oklab, black 40%, transparent);
+    user-select: none;
+  }
+
+  /* Signal dot — 6px circle with a faint halo, for status indicators */
+  .signal-dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    box-shadow: 0 0 0 2px color-mix(in oklab, currentColor 15%, transparent);
+  }
+
+  /* Active-nav rail — 2px vertical accent bar on the left of active nav items */
+  .nav-rail-active {
+    position: relative;
+  }
+  .nav-rail-active::before {
+    content: "";
+    position: absolute;
+    left: -0.75rem;
+    top: 15%;
+    bottom: 15%;
+    width: 2px;
+    border-radius: 2px;
+    background: var(--signal-cyan);
+    box-shadow: 0 0 8px color-mix(in oklab, var(--signal-cyan) 50%, transparent);
+  }
+
+  /* Subtle row focus — used for the inbox/j-k keyboard-driven list */
+  .row-focus {
+    background: linear-gradient(
+      90deg,
+      color-mix(in oklab, var(--signal-cyan) 12%, transparent) 0%,
+      color-mix(in oklab, var(--signal-cyan) 4%, transparent) 40%,
+      transparent 100%
+    );
+    box-shadow: inset 2px 0 0 var(--signal-cyan);
+  }
+
+  /* Hairline divider that reads as intentional, not a default border */
+  .hairline {
+    border-color: var(--hairline);
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  .text-pretty {
+    text-wrap: pretty;
+  }
+
+  /* Bare colour helpers (used where a single class applies colour) */
+  .signal-cyan { color: var(--signal-cyan); }
+  .signal-amber { color: var(--signal-amber); }
+  .signal-green { color: var(--signal-green); }
+  .signal-red { color: var(--signal-red); }
+  .signal-violet { color: var(--signal-violet); }
+  .signal-rose { color: var(--signal-rose); }
+
+  /* text-signal-* — works with hover:/focus: variants because of @custom-variant */
+  .text-signal-cyan { color: var(--signal-cyan); }
+  .text-signal-amber { color: var(--signal-amber); }
+  .text-signal-green { color: var(--signal-green); }
+  .text-signal-red { color: var(--signal-red); }
+  .text-signal-violet { color: var(--signal-violet); }
+  .text-signal-rose { color: var(--signal-rose); }
+
+  /* Solid backgrounds (no opacity suffix) */
+  .bg-signal-cyan { background-color: var(--signal-cyan); }
+  .bg-signal-amber { background-color: var(--signal-amber); }
+  .bg-signal-green { background-color: var(--signal-green); }
+  .bg-signal-red { background-color: var(--signal-red); }
+  .bg-signal-violet { background-color: var(--signal-violet); }
+  .bg-signal-rose { background-color: var(--signal-rose); }
+
+  /* Tinted backgrounds */
+  .bg-signal-cyan\/10 { background-color: color-mix(in oklab, var(--signal-cyan) 10%, transparent); }
+  .bg-signal-cyan\/15 { background-color: color-mix(in oklab, var(--signal-cyan) 15%, transparent); }
+  .bg-signal-amber\/10 { background-color: color-mix(in oklab, var(--signal-amber) 10%, transparent); }
+  .bg-signal-amber\/15 { background-color: color-mix(in oklab, var(--signal-amber) 15%, transparent); }
+  .bg-signal-green\/10 { background-color: color-mix(in oklab, var(--signal-green) 10%, transparent); }
+  .bg-signal-green\/15 { background-color: color-mix(in oklab, var(--signal-green) 15%, transparent); }
+  .bg-signal-red\/10 { background-color: color-mix(in oklab, var(--signal-red) 10%, transparent); }
+  .bg-signal-red\/15 { background-color: color-mix(in oklab, var(--signal-red) 15%, transparent); }
+  .bg-signal-violet\/10 { background-color: color-mix(in oklab, var(--signal-violet) 10%, transparent); }
+  .bg-signal-violet\/15 { background-color: color-mix(in oklab, var(--signal-violet) 15%, transparent); }
+
+  /* Borders — /30 default plus /60 for hover-darker */
+  .border-signal-cyan\/30 { border-color: color-mix(in oklab, var(--signal-cyan) 30%, transparent); }
+  .border-signal-amber\/30 { border-color: color-mix(in oklab, var(--signal-amber) 30%, transparent); }
+  .border-signal-green\/30 { border-color: color-mix(in oklab, var(--signal-green) 30%, transparent); }
+  .border-signal-red\/30 { border-color: color-mix(in oklab, var(--signal-red) 30%, transparent); }
+  .border-signal-violet\/30 { border-color: color-mix(in oklab, var(--signal-violet) 30%, transparent); }
+  .border-signal-cyan\/60 { border-color: color-mix(in oklab, var(--signal-cyan) 60%, transparent); }
+  .border-signal-amber\/60 { border-color: color-mix(in oklab, var(--signal-amber) 60%, transparent); }
+  .border-signal-green\/60 { border-color: color-mix(in oklab, var(--signal-green) 60%, transparent); }
+  .border-signal-red\/60 { border-color: color-mix(in oklab, var(--signal-red) 60%, transparent); }
+  .border-signal-violet\/60 { border-color: color-mix(in oklab, var(--signal-violet) 60%, transparent); }
+
+  /* Text-decoration color helpers — for underline/strike-through accents */
+  .decoration-signal-cyan { text-decoration-color: var(--signal-cyan); }
+  .decoration-signal-amber { text-decoration-color: var(--signal-amber); }
+  .decoration-signal-green { text-decoration-color: var(--signal-green); }
+  .decoration-signal-red { text-decoration-color: var(--signal-red); }
+  .decoration-signal-violet { text-decoration-color: var(--signal-violet); }
 }

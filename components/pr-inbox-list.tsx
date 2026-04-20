@@ -52,7 +52,10 @@ export function PrInboxList({ items }: { items: InboxItem[] }) {
 
   if (items.length === 0) {
     return (
-      <EmptyState title="Nothing in your inbox" hint="You're caught up." />
+      <EmptyState
+        title="All hands on deck — inbox is clear"
+        hint="No PRs waiting on you. Press n to queue a pendiente."
+      />
     );
   }
 
