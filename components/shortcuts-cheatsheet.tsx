@@ -1,20 +1,20 @@
 "use client";
 import * as React from "react";
+import { Keyboard } from "lucide-react";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Kbd } from "@/components/ui/kbd";
 import { SHORTCUTS } from "@/lib/shortcuts";
 import { useShortcut } from "./shortcut-provider";
 
-const scopeConfig: Record<string, { label: string; accent: string }> = {
-  global: { label: "Anywhere", accent: "var(--signal-cyan)" },
-  inbox: { label: "In the inbox", accent: "var(--signal-amber)" },
-  "pr-detail": { label: "On a PR", accent: "var(--signal-green)" },
-  issues: { label: "In issues", accent: "var(--signal-rose)" },
+const scopeConfig: Record<string, { label: string; tint: string }> = {
+  global: { label: "Anywhere", tint: "var(--coral)" },
+  inbox: { label: "In the inbox", tint: "var(--ocean)" },
+  "pr-detail": { label: "On a PR", tint: "var(--meadow)" },
+  issues: { label: "In issues", tint: "var(--sun)" },
 };
 
 export function ShortcutsCheatsheet() {
@@ -23,64 +23,67 @@ export function ShortcutsCheatsheet() {
 
   const grouped = React.useMemo(() => {
     const g: Record<string, typeof SHORTCUTS[number][]> = {};
-    for (const s of SHORTCUTS) {
-      (g[s.scope] ??= []).push(s);
-    }
+    for (const s of SHORTCUTS) (g[s.scope] ??= []).push(s);
     return g;
   }, []);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent className="!max-w-2xl !bg-card !border-border !p-0 overflow-hidden">
-        <DialogHeader className="flex flex-row items-center justify-between gap-4 border-b border-hairline bg-background/40 px-6 py-4 !space-y-0">
-          <div className="space-y-1">
-            <div className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-              <span
-                className="signal-dot"
-                style={{
-                  backgroundColor: "var(--signal-cyan)",
-                  color: "var(--signal-cyan)",
-                }}
-              />
-              Keyboard atlas
+      <DialogContent className="!max-w-2xl !bg-surface !border-border !rounded-2xl !p-0 overflow-hidden !shadow-float">
+        <DialogHeader className="flex flex-row items-start justify-between gap-3 border-b border-border px-6 py-5 !space-y-0">
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-2xl gradient-coral text-white shadow-lift">
+              <Keyboard className="h-5 w-5" strokeWidth={2.25} />
             </div>
-            <DialogTitle className="font-display text-2xl italic !font-normal">
-              Every move, one key.
-            </DialogTitle>
+            <div>
+              <DialogTitle className="font-display text-2xl font-semibold !font-sans">
+                Keyboard shortcuts
+              </DialogTitle>
+              <div className="text-[12px] text-muted-foreground">
+                Muscle memory is the fastest interface.
+              </div>
+            </div>
           </div>
-          <div className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">
-            <Kbd>esc</Kbd> close
-          </div>
+          <kbd className="rounded-md border border-border bg-muted px-1.5 py-px font-mono text-[10px] text-muted-foreground">
+            esc
+          </kbd>
         </DialogHeader>
 
-        <div className="max-h-[60vh] overflow-auto px-6 py-5">
+        <div className="max-h-[60vh] overflow-auto px-6 py-5 space-y-5">
           {Object.entries(grouped).map(([scope, entries]) => {
             const cfg = scopeConfig[scope] ?? {
               label: scope,
-              accent: "var(--foreground)",
+              tint: "var(--foreground)",
             };
             return (
-              <div key={scope} className="mb-5 last:mb-0">
-                <div className="mb-2 flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+              <div key={scope}>
+                <div className="mb-2 flex items-center gap-2 text-[11px] font-semibold uppercase tracking-widest">
                   <span
-                    className="signal-dot"
+                    className="dot"
                     style={{
-                      backgroundColor: cfg.accent,
-                      color: cfg.accent,
+                      width: 6,
+                      height: 6,
+                      backgroundColor: cfg.tint,
+                      boxShadow: `0 0 0 3px color-mix(in oklab, ${cfg.tint} 22%, transparent)`,
                     }}
                   />
-                  {cfg.label}
+                  <span style={{ color: cfg.tint }}>{cfg.label}</span>
                 </div>
-                <div className="divide-y divide-hairline overflow-hidden rounded-md border border-hairline">
+                <div className="overflow-hidden rounded-xl border border-border divide-y divide-border">
                   {entries.map((s) => (
                     <div
                       key={`${s.scope}-${s.key}`}
-                      className="flex items-center justify-between px-4 py-2 text-sm"
+                      className="flex items-center justify-between px-4 py-2.5 text-[14px]"
                     >
-                      <span className="text-foreground/85">{s.label}</span>
+                      <span>{s.label}</span>
                       <span className="flex items-center gap-1">
                         {s.key.split(" ").map((k, i) => (
-                          <Kbd key={i}>{k}</Kbd>
+                          <kbd
+                            key={i}
+                            className="rounded-md border border-border bg-muted px-1.5 py-px font-mono text-[11px] font-medium"
+                          >
+                            {k}
+                          </kbd>
                         ))}
                       </span>
                     </div>
@@ -89,10 +92,6 @@ export function ShortcutsCheatsheet() {
               </div>
             );
           })}
-        </div>
-
-        <div className="border-t border-hairline bg-background/40 px-6 py-2.5 text-center text-[10px] font-mono uppercase tracking-[0.22em] text-muted-foreground">
-          ⌘ — muscle memory is the fastest interface
         </div>
       </DialogContent>
     </Dialog>

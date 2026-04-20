@@ -1,4 +1,5 @@
 import type * as React from "react";
+import { Sparkles } from "lucide-react";
 
 export function EmptyState({
   title,
@@ -12,54 +13,20 @@ export function EmptyState({
   return (
     <div className="flex flex-col items-center justify-center gap-4 px-6 py-20 text-center">
       <div
-        className="relative flex h-16 w-16 items-center justify-center rounded-full border border-hairline"
-        style={{
-          backgroundColor:
-            "color-mix(in oklab, var(--signal-cyan) 6%, transparent)",
-          boxShadow:
-            "inset 0 0 30px color-mix(in oklab, var(--signal-cyan) 10%, transparent)",
-        }}
+        className="flex h-16 w-16 items-center justify-center rounded-3xl gradient-coral text-white shadow-lift"
       >
-        <div
-          className="absolute inset-0 rounded-full"
-          style={{
-            background:
-              "radial-gradient(circle, color-mix(in oklab, var(--signal-cyan) 18%, transparent) 0%, transparent 70%)",
-          }}
-        />
-        {icon ?? <ShipAnchor />}
+        {icon ?? <Sparkles className="h-7 w-7" strokeWidth={2} />}
       </div>
-      <div className="space-y-1">
-        <div className="font-display text-xl italic text-foreground/90">
+      <div className="space-y-1 max-w-sm">
+        <div className="font-display text-2xl font-semibold tracking-tight text-balance">
           {title}
         </div>
         {hint ? (
-          <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
+          <div className="text-sm text-muted-foreground text-pretty">
             {hint}
           </div>
         ) : null}
       </div>
     </div>
-  );
-}
-
-function ShipAnchor() {
-  return (
-    <svg
-      width="26"
-      height="26"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      style={{ color: "var(--signal-cyan)" }}
-    >
-      <circle cx="12" cy="5" r="2" />
-      <path d="M12 7v14" />
-      <path d="M8 10h8" />
-      <path d="M5 15a7 7 0 0 0 14 0" />
-    </svg>
   );
 }

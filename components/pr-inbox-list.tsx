@@ -45,7 +45,7 @@ export function PrInboxList({ items }: { items: InboxItem[] }) {
         title: it.title,
       });
       await navigator.clipboard.writeText(cmd);
-      toast.success("Claude command copied.");
+      toast.success("Claude command copied to your clipboard.");
     },
     "inbox",
   );
@@ -53,14 +53,14 @@ export function PrInboxList({ items }: { items: InboxItem[] }) {
   if (items.length === 0) {
     return (
       <EmptyState
-        title="All hands on deck — inbox is clear"
-        hint="No PRs waiting on you. Press n to queue a pendiente."
+        title="Inbox is clear."
+        hint="No PRs waiting on you. Go build something."
       />
     );
   }
 
   return (
-    <div>
+    <div className="space-y-1.5 p-3">
       {items.map((item, i) => (
         <PrRow
           key={item.id}

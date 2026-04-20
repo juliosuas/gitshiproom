@@ -1,65 +1,69 @@
 import type { PrFile } from "@/lib/github/pr-detail";
+import { cn } from "@/lib/utils";
 
 const statusAccent: Record<string, string> = {
-  added: "var(--signal-green)",
-  modified: "var(--signal-amber)",
-  removed: "var(--signal-red)",
-  renamed: "var(--signal-violet)",
+  added: "var(--meadow)",
+  modified: "var(--sun)",
+  removed: "var(--rose)",
+  renamed: "var(--ocean)",
 };
 
 export function DiffView({ files }: { files: PrFile[] }) {
   if (files.length === 0) return null;
   return (
     <div className="space-y-3">
-      <div className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-        <span className="h-[1px] flex-1 bg-hairline" />
-        {files.length} file{files.length === 1 ? "" : "s"} changed
-        <span className="h-[1px] flex-1 bg-hairline" />
-      </div>
       {files.map((f) => {
-        const accent = statusAccent[f.status] ?? "var(--signal-cyan)";
+        const accent = statusAccent[f.status] ?? "var(--coral)";
         return (
           <div
             key={f.filename}
-            className="overflow-hidden rounded-lg border border-hairline bg-card/40"
+            className="card-soft overflow-hidden"
           >
             <div
-              className="flex items-center justify-between border-b border-hairline px-4 py-2 text-sm"
+              className="flex items-center justify-between gap-3 border-b border-border px-4 py-2.5"
               style={{
-                background: `color-mix(in oklab, ${accent} 6%, transparent)`,
+                backgroundColor: `color-mix(in oklab, ${accent} 5%, transparent)`,
               }}
             >
               <div className="flex min-w-0 items-center gap-2">
                 <span
-                  className="signal-dot shrink-0"
-                  style={{ backgroundColor: accent, color: accent }}
+                  className="dot"
+                  style={{
+                    backgroundColor: accent,
+                    width: 7,
+                    height: 7,
+                    boxShadow: `0 0 0 3px color-mix(in oklab, ${accent} 22%, transparent)`,
+                  }}
                 />
-                <span className="truncate font-mono text-[13px] text-foreground/90">
+                <span className="truncate font-mono text-[13px] font-medium">
                   {f.filename}
                 </span>
                 <span
-                  className="ml-1 rounded border border-hairline px-1.5 py-[1px] font-mono text-[9px] uppercase tracking-wider"
-                  style={{ color: accent }}
+                  className="rounded-md border px-1.5 py-px text-[10px] font-medium uppercase tracking-wider"
+                  style={{
+                    color: accent,
+                    borderColor: `color-mix(in oklab, ${accent} 30%, transparent)`,
+                  }}
                 >
                   {f.status}
                 </span>
               </div>
-              <div className="flex items-center gap-3 font-mono text-[11px]">
-                <span style={{ color: "var(--signal-green)" }}>
-                  +{f.additions}
-                </span>
-                <span style={{ color: "var(--signal-red)" }}>
-                  −{f.deletions}
-                </span>
+              <div className="flex items-center gap-2 font-mono text-[11px]">
+                <span style={{ color: "var(--meadow)" }}>+{f.additions}</span>
+                <span style={{ color: "var(--rose)" }}>−{f.deletions}</span>
               </div>
             </div>
-            <pre className="overflow-x-auto px-4 py-3 font-mono text-[12px] leading-relaxed">
-              {(f.patch ?? "(binary or too large)")
+            <pre className="overflow-x-auto bg-surface-raised/50 px-4 py-3 font-mono text-[12px] leading-[1.55]">
+              {(f.patch ?? "(binary or too large to display)")
                 .split("\n")
                 .map((line, i) => (
                   <div
                     key={i}
-                    className="whitespace-pre"
+                    className={cn(
+                      "whitespace-pre",
+                      line.startsWith("+") && !line.startsWith("+++") && "bg-meadow/10",
+                      line.startsWith("-") && !line.startsWith("---") && "bg-rose/10",
+                    )}
                     style={lineStyle(line)}
                   >
                     {line || " "}
@@ -75,18 +79,18 @@ export function DiffView({ files }: { files: PrFile[] }) {
 
 function lineStyle(line: string): React.CSSProperties | undefined {
   if (line.startsWith("+++") || line.startsWith("---")) {
-    return { color: "color-mix(in oklab, var(--foreground) 45%, transparent)" };
+    return { color: "color-mix(in oklab, var(--foreground) 40%, transparent)" };
   }
-  if (line.startsWith("+")) return { color: "var(--signal-green)" };
-  if (line.startsWith("-")) return { color: "var(--signal-red)" };
+  if (line.startsWith("+")) return { color: "var(--meadow)" };
+  if (line.startsWith("-")) return { color: "var(--rose)" };
   if (line.startsWith("@@")) {
     return {
-      color: "var(--signal-cyan)",
-      background:
-        "color-mix(in oklab, var(--signal-cyan) 10%, transparent)",
+      color: "var(--ocean)",
+      background: "color-mix(in oklab, var(--ocean) 8%, transparent)",
       padding: "1px 6px",
       margin: "2px -6px",
-      borderRadius: "3px",
+      borderRadius: "4px",
+      fontWeight: 500,
     };
   }
   return undefined;

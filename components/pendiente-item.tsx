@@ -1,4 +1,5 @@
 "use client";
+import { Trash2, ExternalLink } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import type { Pendiente } from "@/lib/db/pendientes";
 import { cn } from "@/lib/utils";
@@ -15,7 +16,7 @@ export function PendienteItem({
   return (
     <div
       className={cn(
-        "group relative flex items-start gap-3 border-b border-hairline px-5 py-3 text-sm transition-colors hover:bg-accent/25",
+        "group flex items-start gap-3 rounded-2xl border border-transparent p-4 transition-colors hover:border-border hover:bg-surface/60",
         p.done && "opacity-60",
       )}
     >
@@ -23,48 +24,46 @@ export function PendienteItem({
         <Checkbox
           checked={p.done}
           onCheckedChange={onToggle}
-          className="data-[state=checked]:!bg-[var(--signal-cyan)] data-[state=checked]:!border-[var(--signal-cyan)]"
+          className="h-5 w-5 data-[state=checked]:!bg-meadow data-[state=checked]:!border-meadow"
         />
       </div>
 
-      <div className="flex-1 min-w-0 space-y-1">
+      <div className="flex-1 min-w-0 space-y-1.5">
         <div
           className={cn(
-            "leading-snug text-foreground/90",
-            p.done && "text-muted-foreground line-through decoration-signal-cyan decoration-1",
+            "text-[15px] leading-snug text-foreground",
+            p.done && "line-through text-muted-foreground",
           )}
         >
           {p.title}
         </div>
         {p.body ? (
-          <div className="whitespace-pre-wrap text-[12px] leading-relaxed text-muted-foreground">
+          <div className="whitespace-pre-wrap text-[13px] leading-relaxed text-muted-foreground">
             {p.body}
           </div>
         ) : null}
         {p.linked_url ? (
           <a
-            className="inline-flex items-center gap-1 rounded border border-signal-violet/30 bg-signal-violet/10 px-1.5 py-[1px] font-mono text-[10px] transition-colors hover:border-signal-violet/60"
-            style={{ color: "var(--signal-violet)" }}
             href={p.linked_url}
             target="_blank"
             rel="noreferrer"
+            className="inline-flex items-center gap-1.5 rounded-md border border-ocean/30 bg-ocean/10 px-2 py-0.5 text-[11px] font-medium transition-colors hover:border-ocean/50"
+            style={{ color: "var(--ocean)" }}
           >
-            {p.linked_kind ?? "link"} ↗ {shortenUrl(p.linked_url)}
+            <ExternalLink className="h-3 w-3" />
+            {shortenUrl(p.linked_url)}
           </a>
         ) : null}
       </div>
 
-      <div className="flex items-center gap-3 font-mono text-[10px] uppercase tracking-wider">
-        <span className="text-muted-foreground/60">
-          {formatCreated(p.created_at)}
-        </span>
+      <div className="flex items-center gap-3 text-[11px] text-muted-foreground">
+        <span>{formatCreated(p.created_at)}</span>
         <button
           onClick={onDelete}
-          className="text-muted-foreground/60 opacity-0 transition-opacity hover:text-signal-red group-hover:opacity-100"
-          style={{ color: undefined }}
+          className="opacity-0 transition-all hover:text-rose group-hover:opacity-100"
           title="Delete"
         >
-          ✕
+          <Trash2 className="h-4 w-4" strokeWidth={2} />
         </button>
       </div>
     </div>
@@ -74,9 +73,9 @@ export function PendienteItem({
 function shortenUrl(u: string): string {
   try {
     const url = new URL(u);
-    return `${url.hostname.replace(/^www\./, "")}${url.pathname}`.slice(0, 50);
+    return `${url.hostname.replace(/^www\./, "")}${url.pathname}`.slice(0, 48);
   } catch {
-    return u.slice(0, 50);
+    return u.slice(0, 48);
   }
 }
 
