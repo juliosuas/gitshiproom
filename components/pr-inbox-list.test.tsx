@@ -53,13 +53,13 @@ describe("PrInboxList", () => {
   test("j / k moves focus", () => {
     render(<Wrap items={items} />);
     fireEvent.keyDown(window, { key: "j" });
-    expect(screen.getByText("Fix B").closest("a")).toHaveClass("bg-accent");
+    expect(screen.getByText("Fix B").closest("a")).toHaveClass("row-focus");
     fireEvent.keyDown(window, { key: "k" });
-    expect(screen.getByText("Fix A").closest("a")).toHaveClass("bg-accent");
+    expect(screen.getByText("Fix A").closest("a")).toHaveClass("row-focus");
   });
 
   test("empty state when list is empty", () => {
     render(<Wrap items={[]} />);
-    expect(screen.getByText(/nothing in your inbox/i)).toBeInTheDocument();
+    expect(screen.getByText(/inbox is clear/i)).toBeInTheDocument();
   });
 });
